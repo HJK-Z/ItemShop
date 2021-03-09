@@ -294,9 +294,10 @@ GameObject:
   - component: {fileID: 3122855503829242450}
   - component: {fileID: 6268538116984687401}
   - component: {fileID: 4205022973215787166}
-  - component: {fileID: 7275445899649570193}
   - component: {fileID: 1272397862697293493}
   - component: {fileID: 1661717823}
+  - component: {fileID: 5890443563725032207}
+  - component: {fileID: 5313687800926543455}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -475,28 +476,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMultiplier: 1
   sensibilityToSelfdamage: 0.25
---- !u!114 &7275445899649570193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7253983127304857660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d22c0929e4da7d43a44b9c5c56ddf4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSlots: 10
-  interact: 105
-  action: 101
-  open: {fileID: 0}
-  close: {fileID: 0}
-  pickUp: {fileID: 0}
-  moveSlot: {fileID: 0}
-  drop: {fileID: 0}
-  distance: 2.5
-  canvas: {fileID: 0}
 --- !u!82 &1272397862697293493
 AudioSource:
   m_ObjectHideFlags: 0
@@ -691,6 +670,40 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5890443563725032207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253983127304857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0db4493228a4ba442a891316e3ee246f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  characterSystem: {fileID: 0}
+  craftSystem: {fileID: 0}
+  HPMANACanvas: {fileID: 0}
+  currentHealth: 60
+--- !u!114 &5313687800926543455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253983127304857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaa262ffdd96c8468c4031059d07825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementspeed: 5
+  mouseSensitivity: 2
+  verticalAngleLimit: 60
+  jumpSpeed: 5
+  showInventory: 0
 --- !u!1 &7383874627095517793
 GameObject:
   m_ObjectHideFlags: 0
