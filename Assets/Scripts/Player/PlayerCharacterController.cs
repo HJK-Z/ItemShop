@@ -115,7 +115,7 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Minimun fall speed for recieving fall damage")]
     public float minSpeedForFallDamage = 10f;
 
-    [Tooltip("Fall speed for recieving th emaximum amount of fall damage")]
+    [Tooltip("Fall speed for recieving the maximum amount of fall damage")]
     public float maxSpeedForFallDamage = 30f;
 
     [Tooltip("Damage recieved when falling at the mimimum speed")]
@@ -251,12 +251,10 @@ public class PlayerCharacterController : MonoBehaviour
                         fallSpeedRatio);
                 m_Health.TakeDamage(dmgFromFall, null);
 
-                // fall damage SFX
                 audioSource.PlayOneShot (fallDamageSFX);
             }
             else
             {
-                // land SFX
                 audioSource.PlayOneShot (landSFX);
             }
         }
@@ -275,9 +273,6 @@ public class PlayerCharacterController : MonoBehaviour
     void OnDie()
     {
         isDead = true;
-
-        // Tell the weapons manager to switch to a non-existing weapon in order to lower the weapon
-        m_WeaponsManager.SwitchToWeaponIndex(-1, true);
     }
 
     void GroundCheck()
@@ -598,6 +593,7 @@ public class PlayerCharacterController : MonoBehaviour
     public void Reset()
     {
         isDead = false;
+        characterVelocity = Vector3.zero;
         m_Health.Reset();
         SetCrouchingState(false, false);
         UpdateCharacterHeight(true);

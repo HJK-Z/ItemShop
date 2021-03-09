@@ -83,6 +83,7 @@ public class Health : MonoBehaviour
     public void Reset()
     {
         currentHealth = maxHealth;
+        m_IsDead = false;
     }
 
     private void HandleDeath()

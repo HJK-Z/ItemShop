@@ -80,7 +80,7 @@ public class GameFlowManager : MonoBehaviour
         audioSource
             .PlayScheduled(AudioSettings.dspTime + delayBeforeDeathMessage);
 
-        Debug.Log("dying");
+        Destroy(audioSource, m_TimeRespawn);
 
         // create a game message
         var message =
@@ -89,19 +89,19 @@ public class GameFlowManager : MonoBehaviour
         {
             message.delayBeforeShowing = delayBeforeDeathMessage;
             message.GetComponent<Transform>().SetAsLastSibling();
+            Destroy(message.gameObject, m_TimeRespawn);
         }
     }
 
     void Respawn()
     {
-        Debug.Log("dead");
         m_Player.transform.position = new Vector3(0, 0, 0);
         m_Player.Reset();
 
         gameIsEnding = false;
+        endGameFadeCanvasGroup.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        endGameFadeCanvasGroup.gameObject.SetActive(false);
+        AudioUtility.SetMasterVolume(1);
     }
 }
