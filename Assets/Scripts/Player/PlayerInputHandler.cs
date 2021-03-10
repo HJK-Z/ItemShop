@@ -4,25 +4,36 @@ public class PlayerInputHandler : MonoBehaviour
 {
     [Tooltip("Sensitivity multiplier for moving the camera around")]
     public float lookSensitivity = 1f;
+
     [Tooltip("Additional sensitivity multiplier for WebGL")]
     public float webglLookSensitivityMultiplier = 0.25f;
+
     [Tooltip("Limit to consider an input when using a trigger on a controller")]
     public float triggerAxisThreshold = 0.4f;
+
     [Tooltip("Used to flip the vertical input axis")]
     public bool invertYAxis = false;
+
     [Tooltip("Used to flip the horizontal input axis")]
     public bool invertXAxis = false;
 
     GameFlowManager m_GameFlowManager;
+
     PlayerCharacterController m_PlayerCharacterController;
-    bool m_FireInputWasHeld;
+
+    bool m_UseInputWasHeld;
 
     private void Start()
     {
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
-        DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, PlayerInputHandler>(m_PlayerCharacterController, this, gameObject);
+        DebugUtility
+            .HandleErrorIfNullGetComponent
+            <PlayerCharacterController, PlayerInputHandler
+            >(m_PlayerCharacterController, this, gameObject);
         m_GameFlowManager = FindObjectOfType<GameFlowManager>();
-        DebugUtility.HandleErrorIfNullFindObject<GameFlowManager, PlayerInputHandler>(m_GameFlowManager, this);
+        DebugUtility
+            .HandleErrorIfNullFindObject
+            <GameFlowManager, PlayerInputHandler>(m_GameFlowManager, this);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -30,19 +41,24 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LateUpdate()
     {
-        m_FireInputWasHeld = GetFireInputHeld();
+        m_UseInputWasHeld = GetUseInputHeld();
     }
 
     public bool CanProcessInput()
     {
-        return Cursor.lockState == CursorLockMode.Locked && !m_GameFlowManager.gameIsEnding;
+        return Cursor.lockState == CursorLockMode.Locked &&
+        !m_GameFlowManager.gameIsEnding;
     }
 
     public Vector3 GetMoveInput()
     {
         if (CanProcessInput())
         {
-            Vector3 move = new Vector3(Input.GetAxisRaw(GameConstants.k_AxisNameHorizontal), 0f, Input.GetAxisRaw(GameConstants.k_AxisNameVertical));
+            Vector3 move =
+                new Vector3(Input
+                        .GetAxisRaw(GameConstants.k_AxisNameHorizontal),
+                    0f,
+                    Input.GetAxisRaw(GameConstants.k_AxisNameVertical));
 
             // constrain move input to a maximum magnitude of 1, otherwise diagonal movement might exceed the max move speed defined
             move = Vector3.ClampMagnitude(move, 1);
@@ -55,12 +71,12 @@ public class PlayerInputHandler : MonoBehaviour
 
     public float GetLookInputsHorizontal()
     {
-        return GetMouseOrStickLookAxis(GameConstants.k_MouseAxisNameHorizontal, GameConstants.k_AxisNameJoystickLookHorizontal);
+        return GetMouseLookAxis(GameConstants.k_MouseAxisNameHorizontal);
     }
 
     public float GetLookInputsVertical()
     {
-        return GetMouseOrStickLookAxis(GameConstants.k_MouseAxisNameVertical, GameConstants.k_AxisNameJoystickLookVertical);
+        return GetMouseLookAxis(GameConstants.k_MouseAxisNameVertical);
     }
 
     public bool GetJumpInputDown()
@@ -83,41 +99,21 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
-    public bool GetFireInputDown()
+    public bool GetUseInputDown()
     {
-        return GetFireInputHeld() && !m_FireInputWasHeld;
+        return GetUseInputHeld() && !m_UseInputWasHeld;
     }
 
-    public bool GetFireInputReleased()
+    public bool GetUseInputReleased()
     {
-        return !GetFireInputHeld() && m_FireInputWasHeld;
+        return !GetUseInputHeld() && m_UseInputWasHeld;
     }
 
-    public bool GetFireInputHeld()
+    public bool GetUseInputHeld()
     {
         if (CanProcessInput())
         {
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadFire) != 0f;
-            if (isGamepad)
-            {
-                return Input.GetAxis(GameConstants.k_ButtonNameGamepadFire) >= triggerAxisThreshold;
-            }
-            else
-            {
-                return Input.GetButton(GameConstants.k_ButtonNameFire);
-            }
-        }
-
-        return false;
-    }
-
-    public bool GetAimInputHeld()
-    {
-        if (CanProcessInput())
-        {
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) != 0f;
-            bool i = isGamepad ? (Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) > 0f) : Input.GetButton(GameConstants.k_ButtonNameAim);
-            return i;
+            return Input.GetButton(GameConstants.k_ButtonNameUse);
         }
 
         return false;
@@ -153,28 +149,21 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
-    public int GetSwitchWeaponInput()
+    public int GetSwitchItemInput()
     {
         if (CanProcessInput())
         {
-
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadSwitchWeapon) != 0f;
-            string axisName = isGamepad ? GameConstants.k_ButtonNameGamepadSwitchWeapon : GameConstants.k_ButtonNameSwitchWeapon;
+            string axisName = GameConstants.k_ButtonNameSwitchItem;
 
             if (Input.GetAxis(axisName) > 0f)
                 return -1;
-            else if (Input.GetAxis(axisName) < 0f)
-                return 1;
-            else if (Input.GetAxis(GameConstants.k_ButtonNameNextWeapon) > 0f)
-                return -1;
-            else if (Input.GetAxis(GameConstants.k_ButtonNameNextWeapon) < 0f)
-                return 1;
+            else if (Input.GetAxis(axisName) < 0f) return 1;
         }
 
         return 0;
     }
 
-    public int GetSelectWeaponInput()
+    public int GetSelectItemInput()
     {
         if (CanProcessInput())
         {
@@ -190,6 +179,12 @@ public class PlayerInputHandler : MonoBehaviour
                 return 5;
             else if (Input.GetKeyDown(KeyCode.Alpha6))
                 return 6;
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+                return 7;
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+                return 8;
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+                return 9;
             else
                 return 0;
         }
@@ -197,35 +192,48 @@ public class PlayerInputHandler : MonoBehaviour
         return 0;
     }
 
-    float GetMouseOrStickLookAxis(string mouseInputName, string stickInputName)
+    public bool GetInventoryInputDown()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameInventory);
+        }
+
+        return false;
+    }
+
+    public bool GetInventoryInputReleased()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonUp(GameConstants.k_ButtonNameInventory);
+        }
+
+        return false;
+    }
+
+    float GetMouseLookAxis(string mouseInputName)
     {
         if (CanProcessInput())
         {
             // Check if this look input is coming from the mouse
-            bool isGamepad = Input.GetAxis(stickInputName) != 0f;
-            float i = isGamepad ? Input.GetAxis(stickInputName) : Input.GetAxisRaw(mouseInputName);
+            float i = Input.GetAxisRaw(mouseInputName);
 
             // handle inverting vertical input
-            if (invertYAxis)
-                i *= -1f;
+            if (invertYAxis) i *= -1f;
 
             // apply sensitivity multiplier
             i *= lookSensitivity;
 
-            if (isGamepad)
-            {
-                // since mouse input is already deltaTime-dependant, only scale input with frame time if it's coming from sticks
-                i *= Time.deltaTime;
-            }
-            else
-            {
-                // reduce mouse input amount to be equivalent to stick movement
-                i *= 0.01f;
+            // reduce mouse input amount
+            i *= 0.01f;
+
+
 #if UNITY_WEBGL
-                // Mouse tends to be even more sensitive in WebGL due to mouse acceleration, so reduce it even more
-                i *= webglLookSensitivityMultiplier;
+            // Mouse tends to be even more sensitive in WebGL due to mouse acceleration, so reduce it even more
+            i *= webglLookSensitivityMultiplier;
 #endif
-            }
+
 
             return i;
         }

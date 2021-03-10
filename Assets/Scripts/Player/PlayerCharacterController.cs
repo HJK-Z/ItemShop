@@ -136,6 +136,8 @@ public class PlayerCharacterController : MonoBehaviour
 
     public bool isCrouching { get; private set; }
 
+    public bool isInventoryOpen { get; private set; }
+
     public float RotationMultiplier
     {
         get
@@ -263,6 +265,12 @@ public class PlayerCharacterController : MonoBehaviour
         if (m_InputHandler.GetCrouchInputDown())
         {
             SetCrouchingState(!isCrouching, false);
+        }
+
+        // inventory
+        if (m_InputHandler.GetInventoryInputDown())
+        {
+            SetInventoryState(!isInventoryOpen);
         }
 
         UpdateCharacterHeight(false);
@@ -590,12 +598,17 @@ public class PlayerCharacterController : MonoBehaviour
         return true;
     }
 
+    void SetInventoryState(bool opened)
+    {
+        isInventoryOpen = opened;
+    }
+
     public void Reset()
     {
         isDead = false;
         characterVelocity = Vector3.zero;
         m_Health.Reset();
-        SetCrouchingState(false, false);
+        SetCrouchingState(false, true);
         UpdateCharacterHeight(true);
     }
 }
