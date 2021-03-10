@@ -20,6 +20,7 @@ public class FirstPersonController : MonoBehaviour
     float verticalVelocity = 0;
 
     GameObject inventory;
+    GameObject hotbar;
     GameObject craftSystem;
     GameObject characterSystem;
 
