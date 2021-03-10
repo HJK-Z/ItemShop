@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -204,42 +201,6 @@ public class Inventory : MonoBehaviour
         if (UnEquipItem != null)
             UnEquipItem(item);
     }
-
-#if UNITY_EDITOR
-    [MenuItem("Master System/Create/Inventory and Storage")]        //creating the menu item
-    public static void menuItemCreateInventory()       //create the inventory at start
-    {
-        GameObject Canvas = null;
-        if (GameObject.FindGameObjectWithTag("Canvas") == null)
-        {
-            GameObject inventory = new GameObject();
-            inventory.name = "Inventories";
-            Canvas = (GameObject)Instantiate(Resources.Load("Prefabs/Canvas - Inventory") as GameObject);
-            Canvas.transform.SetParent(inventory.transform, true);
-            GameObject panel = (GameObject)Instantiate(Resources.Load("Prefabs/Panel - Inventory") as GameObject);
-            panel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-            panel.transform.SetParent(Canvas.transform, true);
-            GameObject draggingItem = (GameObject)Instantiate(Resources.Load("Prefabs/DraggingItem") as GameObject);
-            draggingItem.transform.SetParent(Canvas.transform, true);
-            Inventory temp = panel.AddComponent<Inventory>();
-            Instantiate(Resources.Load("Prefabs/EventSystem") as GameObject);
-            panel.AddComponent<InventoryDesign>();
-            temp.getPrefabs();
-        }
-        else
-        {
-            GameObject panel = (GameObject)Instantiate(Resources.Load("Prefabs/Panel - Inventory") as GameObject);
-            panel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, true);
-            panel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-            Inventory temp = panel.AddComponent<Inventory>();
-            panel.AddComponent<InventoryDesign>();
-            DestroyImmediate(GameObject.FindGameObjectWithTag("DraggingItem"));
-            GameObject draggingItem = (GameObject)Instantiate(Resources.Load("Prefabs/DraggingItem") as GameObject);
-            draggingItem.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, true);
-            temp.getPrefabs();
-        }
-    }
-#endif
 
     public void setImportantVariables()
     {
