@@ -290,14 +290,12 @@ GameObject:
   - component: {fileID: 6145509692674227223}
   - component: {fileID: 814417836257332542}
   - component: {fileID: 1360575517897679518}
-  - component: {fileID: 298744117520805562}
   - component: {fileID: 3122855503829242450}
   - component: {fileID: 6268538116984687401}
   - component: {fileID: 4205022973215787166}
   - component: {fileID: 1272397862697293493}
   - component: {fileID: 1661717823}
   - component: {fileID: 5890443563725032207}
-  - component: {fileID: 5313687800926543455}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -366,7 +364,6 @@ MonoBehaviour:
   sprintSpeedModifier: 1.5
   killHeight: -50
   rotationSpeed: 200
-  aimingRotationMultiplier: 0.4
   jumpForce: 9
   cameraHeightRatio: 0.8
   capsuleHeightStanding: 1.8
@@ -383,6 +380,7 @@ MonoBehaviour:
   maxSpeedForFallDamage: 40
   fallDamageAtMinSpeed: 10
   fallDamageAtMaxSpeed: 30
+  inventory: {fileID: 5890443563725032207}
 --- !u!114 &1360575517897679518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,39 +395,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   criticalHealthRatio: 0.3
---- !u!114 &298744117520805562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7253983127304857660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b4f98e62f1d104f8658bba08e5d56f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingWeapons:
-  - {fileID: 8323776800172828795, guid: b318fabc73446b746a1005cede0c4ceb, type: 3}
-  weaponCamera: {fileID: 2286125971047457827}
-  weaponParentSocket: {fileID: 3891163784698469781}
-  defaultWeaponPosition: {fileID: 4354021110288562838}
-  aimingWeaponPosition: {fileID: 6033319682454824337}
-  downWeaponPosition: {fileID: 2050759424792167117}
-  bobFrequency: 10
-  bobSharpness: 10
-  defaultBobAmount: 0.05
-  aimingBobAmount: 0.02
-  recoilSharpness: 50
-  maxRecoilDistance: 0.2
-  recoilRestitutionSharpness: 10
-  aimingAnimationSpeed: 14
-  defaultFOV: 60
-  weaponFOVMultiplier: 1
-  weaponSwitchDelay: 0.2
-  FPSWeaponLayer:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!143 &3122855503829242450
 CharacterController:
   m_ObjectHideFlags: 0
@@ -682,28 +647,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db4493228a4ba442a891316e3ee246f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 814417836257332542}
   inventory: {fileID: 0}
   characterSystem: {fileID: 0}
-  craftSystem: {fileID: 0}
-  HPMANACanvas: {fileID: 0}
-  currentHealth: 60
---- !u!114 &5313687800926543455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7253983127304857660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aaa262ffdd96c8468c4031059d07825, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementspeed: 5
-  mouseSensitivity: 2
-  verticalAngleLimit: 60
-  jumpSpeed: 5
-  showInventory: 0
 --- !u!1 &7383874627095517793
 GameObject:
   m_ObjectHideFlags: 0

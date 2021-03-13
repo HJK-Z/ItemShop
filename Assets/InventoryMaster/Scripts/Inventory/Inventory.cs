@@ -163,12 +163,12 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < canvas.transform.childCount; i++)
         {
             GameObject child = canvas.transform.GetChild(i).gameObject;
-            if (!child.activeSelf && (child.tag == "EquipmentSystem" || child.tag == "Panel" || child.tag == "MainInventory" || child.tag == "CraftSystem"))
+            if (!child.activeSelf && (child.tag == "EquipmentSystem" || child.tag == "Panel" || child.tag == "MainInventory"))
             {
                 if (AllInventoriesClosed != null && i == canvas.transform.childCount - 1)
                     AllInventoriesClosed();
             }
-            else if (child.activeSelf && (child.tag == "EquipmentSystem" || child.tag == "Panel" || child.tag == "MainInventory" || child.tag == "CraftSystem"))
+            else if (child.activeSelf && (child.tag == "EquipmentSystem" || child.tag == "Panel" || child.tag == "MainInventory"))
                 break;
 
             else if (i == canvas.transform.childCount - 1)
@@ -261,7 +261,7 @@ public class Inventory : MonoBehaviour
 
     public void setDefaultSettings()
     {
-        if (GetComponent<EquipmentSystem>() == null && GetComponent<Hotbar>() == null && GetComponent<CraftSystem>() == null)
+        if (GetComponent<EquipmentSystem>() == null && GetComponent<Hotbar>() == null)
         {
             height = 5;
             width = 5;
@@ -290,20 +290,6 @@ public class Inventory : MonoBehaviour
             paddingBottom = 10;
             paddingLeft = 10;
             paddingRight = 10;
-        }
-        else if (GetComponent<CraftSystem>() != null)
-        {
-            height = 3;
-            width = 3;
-            slotSize = 55;
-            iconSize = 45;
-
-            paddingBetweenX = 5;
-            paddingBetweenY = 5;
-            paddingTop = 35;
-            paddingBottom = 95;
-            paddingLeft = 25;
-            paddingRight = 25;
         }
         else
         {

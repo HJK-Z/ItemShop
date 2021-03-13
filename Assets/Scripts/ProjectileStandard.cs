@@ -78,32 +78,32 @@ public class ProjectileStandard : MonoBehaviour
         m_IgnoredColliders.AddRange(ownerColliders);
 
         // Handle case of player shooting (make projectiles not go through walls, and remember center-of-screen trajectory)
-        PlayerWeaponsManager playerWeaponsManager = m_ProjectileBase.owner.GetComponent<PlayerWeaponsManager>();
-        if(playerWeaponsManager)
-        {
-            m_HasTrajectoryOverride = true;
+        // PlayerWeaponsManager playerWeaponsManager = m_ProjectileBase.owner.GetComponent<PlayerWeaponsManager>();
+        // if(playerWeaponsManager)
+        // {
+        //     m_HasTrajectoryOverride = true;
 
-            Vector3 cameraToMuzzle = (m_ProjectileBase.initialPosition - playerWeaponsManager.weaponCamera.transform.position);
+        //     Vector3 cameraToMuzzle = (m_ProjectileBase.initialPosition - playerWeaponsManager.weaponCamera.transform.position);
 
-            m_TrajectoryCorrectionVector = Vector3.ProjectOnPlane(-cameraToMuzzle, playerWeaponsManager.weaponCamera.transform.forward);
-            if (trajectoryCorrectionDistance == 0)
-            {
-                transform.position += m_TrajectoryCorrectionVector;
-                m_ConsumedTrajectoryCorrectionVector = m_TrajectoryCorrectionVector;
-            }
-            else if (trajectoryCorrectionDistance < 0)
-            {
-                m_HasTrajectoryOverride = false;
-            }
+        //     m_TrajectoryCorrectionVector = Vector3.ProjectOnPlane(-cameraToMuzzle, playerWeaponsManager.weaponCamera.transform.forward);
+        //     if (trajectoryCorrectionDistance == 0)
+        //     {
+        //         transform.position += m_TrajectoryCorrectionVector;
+        //         m_ConsumedTrajectoryCorrectionVector = m_TrajectoryCorrectionVector;
+        //     }
+        //     else if (trajectoryCorrectionDistance < 0)
+        //     {
+        //         m_HasTrajectoryOverride = false;
+        //     }
             
-            if (Physics.Raycast(playerWeaponsManager.weaponCamera.transform.position, cameraToMuzzle.normalized, out RaycastHit hit, cameraToMuzzle.magnitude, hittableLayers, k_TriggerInteraction))
-            {
-                if (IsHitValid(hit))
-                {
-                    OnHit(hit.point, hit.normal, hit.collider);
-                }
-            }
-        }
+        //     if (Physics.Raycast(playerWeaponsManager.weaponCamera.transform.position, cameraToMuzzle.normalized, out RaycastHit hit, cameraToMuzzle.magnitude, hittableLayers, k_TriggerInteraction))
+        //     {
+        //         if (IsHitValid(hit))
+        //         {
+        //             OnHit(hit.point, hit.normal, hit.collider);
+        //         }
+        //     }
+        // }
     }
 
     void Update()

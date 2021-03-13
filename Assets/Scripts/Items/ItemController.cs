@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof (QuantumItem))]
 public class ItemController : MonoBehaviour
 {
     // Start is called before the first frame update

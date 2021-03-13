@@ -10,9 +10,9 @@ public class NotificationHUDManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerWeaponsManager playerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
-        DebugUtility.HandleErrorIfNullFindObject<PlayerWeaponsManager, NotificationHUDManager>(playerWeaponsManager, this);
-        playerWeaponsManager.onAddedWeapon += OnPickupWeapon;
+        // PlayerWeaponsManager playerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
+        // DebugUtility.HandleErrorIfNullFindObject<PlayerWeaponsManager, NotificationHUDManager>(playerWeaponsManager, this);
+        // playerWeaponsManager.onAddedWeapon += OnPickupWeapon;
 
         Jetpack jetpack = FindObjectOfType<Jetpack>();
         DebugUtility.HandleErrorIfNullFindObject<Jetpack, NotificationHUDManager>(jetpack, this);

@@ -194,22 +194,12 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool GetInventoryInputDown()
     {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameInventory);
-        }
-
-        return false;
+        return Input.GetButtonDown(GameConstants.k_ButtonNameInventory);
     }
 
     public bool GetInventoryInputReleased()
     {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonUp(GameConstants.k_ButtonNameInventory);
-        }
-
-        return false;
+        return Input.GetButtonUp(GameConstants.k_ButtonNameInventory);
     }
 
     float GetMouseLookAxis(string mouseInputName)
