@@ -14,4 +14,7 @@
     public const string k_ButtonNameSubmit                  = "Submit";
     public const string k_ButtonNameCancel                  = "Cancel";
     public const string k_ButtonNameInventory               = "Inventory";
+
+
+    public const float baseHealth                           = 100;
 }

@@ -11,9 +11,13 @@ public class PlayerInventory : MonoBehaviour
 
     public GameObject characterSystem;
 
+    public GameObject hotbar;
+
     private Inventory mainInventory;
 
     private Inventory characterSystemInventory;
+
+    private Inventory hotbarInventory;
 
     private Tooltip toolTip;
 
@@ -24,11 +28,14 @@ public class PlayerInventory : MonoBehaviour
                 GameObject
                     .FindGameObjectWithTag("Tooltip")
                     .GetComponent<Tooltip>();
+
         if (inventory != null)
             mainInventory = inventory.GetComponent<Inventory>();
         if (characterSystem != null)
             characterSystemInventory =
                 characterSystem.GetComponent<Inventory>();
+        if (hotbar != null)
+            hotbarInventory = hotbar.GetComponent<Inventory>();
     }
 
     public void OnConsumeItem(Item item)
@@ -111,10 +118,10 @@ public class PlayerInventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
-    public void SetState(bool open){
+    public void SetState(bool open)
+    {
         if (open)
         {
             mainInventory.openInventory();

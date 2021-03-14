@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public enum WeaponShootType
-{
-    Manual,
-    Automatic,
-    Charge,
-}
+// public enum WeaponShootType
+// {
+//     Manual,
+//     Automatic,
+//     Charge,
+// }
 
-[System.Serializable]
-public struct CrosshairData
-{
-    [Tooltip("The image that will be used for this weapon's crosshair")]
-    public Sprite crosshairSprite;
-    [Tooltip("The size of the crosshair image")]
-    public int crosshairSize;
-    [Tooltip("The color of the crosshair image")]
-    public Color crosshairColor;
-}
+// [System.Serializable]
+// public struct CrosshairData
+// {
+//     [Tooltip("The image that will be used for this weapon's crosshair")]
+//     public Sprite crosshairSprite;
+//     [Tooltip("The size of the crosshair image")]
+//     public int crosshairSize;
+//     [Tooltip("The color of the crosshair image")]
+//     public Color crosshairColor;
+// }
 
 [RequireComponent(typeof(AudioSource))]
 public class WeaponController : MonoBehaviour
