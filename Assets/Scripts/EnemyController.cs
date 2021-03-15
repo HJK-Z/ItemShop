@@ -111,8 +111,8 @@ public class EnemyController : MonoBehaviour
     bool m_WasDamagedThisFrame;
     float m_LastTimeWeaponSwapped = Mathf.NegativeInfinity;
     int m_CurrentWeaponIndex;
-    WeaponController m_CurrentWeapon;
-    WeaponController[] m_Weapons;
+    ItemController m_CurrentWeapon;
+    ItemController[] m_Weapons;
     NavigationModule m_NavigationModule;
 
     void Start()
@@ -144,7 +144,7 @@ public class EnemyController : MonoBehaviour
         // Find and initialize all weapons
         FindAndInitializeAllWeapons();
         var weapon = GetCurrentWeapon();
-        weapon.ShowWeapon(true);
+        weapon.Show(true);
 
         var detectionModules = GetComponentsInChildren<DetectionModule>();
         DebugUtility.HandleErrorIfNoComponentFound<DetectionModule, EnemyController>(detectionModules.Length, this, gameObject);
@@ -406,7 +406,7 @@ public class EnemyController : MonoBehaviour
             return false;
 
         // Shoot the weapon
-        bool didFire = GetCurrentWeapon().HandleShootInputs(false, true, false);
+        bool didFire = GetCurrentWeapon().HandleUseInputs(false, true, false);
 
         if (didFire && onAttack != null)
         {
@@ -437,8 +437,8 @@ public class EnemyController : MonoBehaviour
         // Check if we already found and initialized the weapons
         if (m_Weapons == null)
         {
-            m_Weapons = GetComponentsInChildren<WeaponController>();
-            DebugUtility.HandleErrorIfNoComponentFound<WeaponController, EnemyController>(m_Weapons.Length, this, gameObject);
+            m_Weapons = GetComponentsInChildren<ItemController>();
+            DebugUtility.HandleErrorIfNoComponentFound<ItemController, EnemyController>(m_Weapons.Length, this, gameObject);
 
             for (int i = 0; i < m_Weapons.Length; i++)
             {
@@ -447,7 +447,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public WeaponController GetCurrentWeapon()
+    public ItemController GetCurrentWeapon()
     {
         FindAndInitializeAllWeapons();
         // Check if no weapon is currently selected
@@ -456,7 +456,7 @@ public class EnemyController : MonoBehaviour
             // Set the first weapon of the weapons list as the current weapon
             SetCurrentWeapon(0);
         }
-        DebugUtility.HandleErrorIfNullGetComponent<WeaponController, EnemyController>(m_CurrentWeapon, this, gameObject);
+        DebugUtility.HandleErrorIfNullGetComponent<ItemController, EnemyController>(m_CurrentWeapon, this, gameObject);
 
         return m_CurrentWeapon;
     }

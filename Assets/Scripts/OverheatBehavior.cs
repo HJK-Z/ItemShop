@@ -36,7 +36,7 @@ public class OverheatBehavior : MonoBehaviour
     public AnimationCurve ammoToVolumeRatioCurve;
 
 
-    WeaponController m_Weapon;
+    ItemController m_Weapon;
     AudioSource m_AudioSource;
     List<RendererIndexData> m_OverheatingRenderersData;
     MaterialPropertyBlock overheatMaterialPropertyBlock;
@@ -61,8 +61,8 @@ public class OverheatBehavior : MonoBehaviour
         overheatMaterialPropertyBlock = new MaterialPropertyBlock();
         m_SteamVFXEmissionModule = steamVFX.emission;
 
-        m_Weapon = GetComponent<WeaponController>();
-        DebugUtility.HandleErrorIfNullGetComponent<WeaponController, OverheatBehavior>(m_Weapon, this, gameObject);
+        m_Weapon = GetComponent<ItemController>();
+        DebugUtility.HandleErrorIfNullGetComponent<ItemController, OverheatBehavior>(m_Weapon, this, gameObject);
 
         m_AudioSource = gameObject.AddComponent<AudioSource>();
         m_AudioSource.clip = coolingCellsSound;

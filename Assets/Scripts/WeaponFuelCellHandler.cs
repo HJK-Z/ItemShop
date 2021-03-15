@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(WeaponController))]
+[RequireComponent(typeof(ItemController))]
 public class WeaponFuelCellHandler : MonoBehaviour
 {
     [Tooltip("Retract All Fuel Cells Simultaneously")]
@@ -12,13 +12,13 @@ public class WeaponFuelCellHandler : MonoBehaviour
     [Tooltip("Cell local position before use")]
     public Vector3 fuelCellUnusedPosition = new Vector3(0f, -0.1f, 0f);
 
-    WeaponController m_Weapon;
+    ItemController m_Weapon;
     bool[] m_FuelCellsCooled;
 
     void Start()
     {
-        m_Weapon = GetComponent<WeaponController>();
-        DebugUtility.HandleErrorIfNullGetComponent<WeaponController, WeaponFuelCellHandler>(m_Weapon, this, gameObject);
+        m_Weapon = GetComponent<ItemController>();
+        DebugUtility.HandleErrorIfNullGetComponent<ItemController, WeaponFuelCellHandler>(m_Weapon, this, gameObject);
 
         m_FuelCellsCooled = new bool[fuelCells.Length];
         for (int i = 0; i < m_FuelCellsCooled.Length; i++)

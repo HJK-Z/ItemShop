@@ -36,7 +36,7 @@ public class ChargedWeaponEffectsHandler : MonoBehaviour
     public GameObject particleInstance { get; set; }
 
     ParticleSystem m_DiskOrbitParticle;
-    WeaponController m_WeaponController;
+    ItemController m_ItemController;
     ParticleSystem.VelocityOverLifetimeModule m_VelocityOverTimeModule;
 
     AudioSource m_AudioSource;
@@ -77,8 +77,8 @@ public class ChargedWeaponEffectsHandler : MonoBehaviour
         m_DiskOrbitParticle = particleInstance.GetComponent<ParticleSystem>();
         DebugUtility.HandleErrorIfNullGetComponent<ParticleSystem, ChargedWeaponEffectsHandler>(m_DiskOrbitParticle, this, particleInstance.gameObject);
 
-        m_WeaponController = GetComponent<WeaponController>();
-        DebugUtility.HandleErrorIfNullGetComponent<WeaponController, ChargedWeaponEffectsHandler>(m_WeaponController, this, gameObject);
+        m_ItemController = GetComponent<ItemController>();
+        DebugUtility.HandleErrorIfNullGetComponent<ItemController, ChargedWeaponEffectsHandler>(m_ItemController, this, gameObject);
 
         m_VelocityOverTimeModule = m_DiskOrbitParticle.velocityOverLifetime;
     }
@@ -88,8 +88,8 @@ public class ChargedWeaponEffectsHandler : MonoBehaviour
         if (particleInstance == null)
             SpawnParticleSystem();
 
-        m_DiskOrbitParticle.gameObject.SetActive(m_WeaponController.isWeaponActive);
-        m_ChargeRatio = m_WeaponController.currentCharge;
+        m_DiskOrbitParticle.gameObject.SetActive(m_ItemController.isWeaponActive);
+        m_ChargeRatio = m_ItemController.currentCharge;
 
         chargingObject.transform.localScale = scale.GetValueFromRatio(m_ChargeRatio);
         if (spinningFrame != null)
@@ -103,9 +103,9 @@ public class ChargedWeaponEffectsHandler : MonoBehaviour
         // update sound's volume and pitch 
         if (m_ChargeRatio > 0)
         {
-            if (!m_AudioSource.isPlaying && m_WeaponController.LastChargeTriggerTimestamp > m_LastChargeTriggerTimestamp)
+            if (!m_AudioSource.isPlaying && m_ItemController.LastChargeTriggerTimestamp > m_LastChargeTriggerTimestamp)
             {
-                m_LastChargeTriggerTimestamp = m_WeaponController.LastChargeTriggerTimestamp;
+                m_LastChargeTriggerTimestamp = m_ItemController.LastChargeTriggerTimestamp;
                 m_EndchargeTime = Time.time + chargeSound.length;
 
                 m_AudioSource.Play();

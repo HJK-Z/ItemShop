@@ -4,7 +4,7 @@
 public class WeaponPickup : MonoBehaviour
 {
     [Tooltip("The prefab for the weapon that will be added to the player on pickup")]
-    public WeaponController weaponPrefab;
+    public ItemController weaponPrefab;
 
     Pickup m_Pickup;
 

@@ -76,7 +76,7 @@ public class PlayerHoldingManager : MonoBehaviour
 
         onSwitchedToItem += OnItemSwitched;
 
-        SwitchItem(activeItemIndex);
+        SwitchItem (activeItemIndex);
     }
 
     private void Update()
@@ -111,7 +111,7 @@ public class PlayerHoldingManager : MonoBehaviour
                 switchItemInput = m_InputHandler.GetSelectItemInput();
                 if (switchItemInput != 0)
                 {
-                    SwitchToItemIndex(switchItemInput - 1);
+                    SwitchToItem(switchItemInput - 1);
                 }
             }
         }
@@ -173,24 +173,9 @@ public class PlayerHoldingManager : MonoBehaviour
         {
             // Store data related to weapon switching animation
             m_ItemSwitchNewItemIndex = newItemIndex;
-            m_TimeStartedWItemwitch = Time.time;
+            m_TimeStartedItemSwitch = Time.time;
 
-            if (GetActiveItem() == null)
-            {
-                m_MainLocalPosition = downItemPosition.localPosition;
-                m_ItemSwitchState = SwitchState.PutUpNew;
-                activeItemIndex = m_ItemSwitchNewItemIndex;
-
-                ItemController newItem = Item(m_ItemSwitchNewItemIndex);
-                if (onSwitchedToItem != null)
-                {
-                    onSwitchedToItem.Invoke (newItem);
-                }
-            }
-            else
-            {
-                m_ItemSwitchState = SwitchState.PutDownPrevious;
-            }
+            m_ItemSwitchState = SwitchState.PutDownPrevious;
         }
     }
 
@@ -234,8 +219,8 @@ public class PlayerHoldingManager : MonoBehaviour
                 m_BobFactor;
 
             // Apply weapon bob
-            m_WeaponBobLocalPosition.x = hBobValue;
-            m_WeaponBobLocalPosition.y = Mathf.Abs(vBobValue);
+            m_BobLocalPosition.x = hBobValue;
+            m_BobLocalPosition.y = Mathf.Abs(vBobValue);
 
             m_LastCharacterPosition =
                 m_PlayerCharacterController.transform.position;
@@ -243,7 +228,6 @@ public class PlayerHoldingManager : MonoBehaviour
     }
 
     // Updates the animated transition of switching
-
     void UpdateItemSwitching()
     {
         // Calculate the time ratio (0 to 1) since switch was triggered
@@ -266,8 +250,7 @@ public class PlayerHoldingManager : MonoBehaviour
             if (m_ItemSwitchState == SwitchState.PutDownPrevious)
             {
                 // Deactivate old
-
-                ItemController old = GetActiveItem(activeItemIndex);
+                ItemController old = GetActiveItem();
                 if (old != null)
                 {
                     old.Show(false);
@@ -277,7 +260,7 @@ public class PlayerHoldingManager : MonoBehaviour
                 switchingTimeFactor = 0f;
 
                 // Activate new weapon
-                ItemController newItem = GetActiveItem(activeItemIndex);
+                ItemController newItem = GetActiveItem();
                 if (onSwitchedToItem != null)
                 {
                     onSwitchedToItem.Invoke (newItem);
@@ -285,7 +268,7 @@ public class PlayerHoldingManager : MonoBehaviour
 
                 if (newItem)
                 {
-                    m_TimeStartedWItemwitch = Time.time;
+                    m_TimeStartedItemSwitch = Time.time;
                     m_ItemSwitchState = SwitchState.PutUpNew;
                 }
                 else
@@ -347,21 +330,20 @@ public class PlayerHoldingManager : MonoBehaviour
 
         if (onAddedItem != null)
         {
-            onAddedItem.Invoke (instance, i);
+            onAddedItem.Invoke (instance, index);
         }
     }
 
-    //called when item is taken out of hotbar
+    // called when item is taken out of hotbar
     public void RemoveItem(int index)
     {
-        m_Hotbar[i] = null;
-
         if (onRemovedItem != null)
         {
-            onRemovedItem.Invoke (instance, i);
+            onRemovedItem.Invoke(m_Hotbar[index], index);
         }
 
-        Destroy(instance.gameObject);
+        Destroy(m_Hotbar[index].gameObject);
+        m_Hotbar[index] = null;
     }
 
     public ItemController GetActiveItem()

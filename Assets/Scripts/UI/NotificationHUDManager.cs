@@ -25,10 +25,10 @@ public class NotificationHUDManager : MonoBehaviour
             CreateNotification(updateObjective.notificationText);
     }
 
-    void OnPickupWeapon(WeaponController weaponController, int index)
+    void OnPickupWeapon(ItemController ItemController, int index)
     {
         if (index != 0)
-            CreateNotification("Picked up weapon : " + weaponController.weaponName);
+            CreateNotification("Picked up weapon : " + ItemController.name);
     }
 
     void OnUnlockJetpack(bool unlock)

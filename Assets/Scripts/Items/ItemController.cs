@@ -133,7 +133,7 @@ public class ItemController : MonoBehaviour
         m_ShootAudioSource = GetComponent<AudioSource>();
         DebugUtility
             .HandleErrorIfNullGetComponent
-            <AudioSource, WeaponController>(m_ShootAudioSource,
+            <AudioSource, ItemController>(m_ShootAudioSource,
             this,
             gameObject);
 
@@ -252,7 +252,7 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    public void ShowWeapon(bool show)
+    public void Show(bool show)
     {
         weaponRoot.SetActive (show);
 

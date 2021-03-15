@@ -8,6 +8,8 @@ public class Affectable : MonoBehaviour
 
     public PlayerCharacterController playerbody;
 
+    public Health health;
+
     public PlayerHoldingManager playerinv;
 
     public float nHealth;
@@ -34,16 +36,14 @@ public class Affectable : MonoBehaviour
             }
             else if (e.name == "Healing")
             {
-                player.m_Health.Heal(e.value / Time.deltaTime);
+                health.Heal(e.value / Time.deltaTime);
             }
             e.timer -= Time.deltaTime;
-
-            if (e.timer <= 0f)
-            {
-                Destroy (e);
-            }
         }
-        playerbody.m_Health.maxHealth = nHealth;
+
+        effects.RemoveAll(e => e.timer <= 0f);
+
+        health.maxHealth = nHealth;
         playerinv.damageMultiplier = nDamage;
     }
 }
