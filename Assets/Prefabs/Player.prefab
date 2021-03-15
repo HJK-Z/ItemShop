@@ -289,12 +289,13 @@ GameObject:
   - component: {fileID: 8746678193447392789}
   - component: {fileID: 6145509692674227223}
   - component: {fileID: 814417836257332542}
-  - component: {fileID: 1360575517897679518}
+  - component: {fileID: 2285641372627792632}
   - component: {fileID: 3122855503829242450}
-  - component: {fileID: 6268538116984687401}
-  - component: {fileID: 4205022973215787166}
+  - component: {fileID: 1360575517897679518}
   - component: {fileID: 5890443563725032207}
   - component: {fileID: 2760648264989750754}
+  - component: {fileID: 4205022973215787166}
+  - component: {fileID: 6268538116984687401}
   - component: {fileID: 1272397862697293493}
   m_Layer: 0
   m_Name: Player
@@ -381,7 +382,7 @@ MonoBehaviour:
   fallDamageAtMinSpeed: 10
   fallDamageAtMaxSpeed: 30
   inventory: {fileID: 5890443563725032207}
---- !u!114 &1360575517897679518
+--- !u!114 &2285641372627792632
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,11 +391,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7253983127304857660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e27364eefd6dd0341ba72a3bfc0d9727, type: 3}
+  m_Script: {fileID: 11500000, guid: 92eebfa0775b4e94c99df5e913d51d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  criticalHealthRatio: 0.3
+  itemCamera: {fileID: 2286125971047457827}
+  itemParentSocket: {fileID: 3361326784658045617}
+  defaultItemPosition: {fileID: 4354021110288562838}
+  downItemPosition: {fileID: 2050759424792167117}
+  bobFrequency: 10
+  bobSharpness: 10
+  bobAmount: 0.05
+  damageMultiplier: 1
+  itemSwitchDelay: 1
+  FPSItemLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_InputHandler: {fileID: 6145509692674227223}
+  m_PlayerCharacterController: {fileID: 814417836257332542}
+  m_Inventory: {fileID: 5890443563725032207}
 --- !u!143 &3122855503829242450
 CharacterController:
   m_ObjectHideFlags: 0
@@ -413,7 +427,7 @@ CharacterController:
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &6268538116984687401
+--- !u!114 &1360575517897679518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,25 +436,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7253983127304857660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81b4c4e7c5d6cd34bb04cb46517b4e23, type: 3}
+  m_Script: {fileID: 11500000, guid: e27364eefd6dd0341ba72a3bfc0d9727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affiliation: 1
-  aimPoint: {fileID: 3625601170703586302}
---- !u!114 &4205022973215787166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7253983127304857660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b0ce1bb69c96b49a7ac1098a7f5796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageMultiplier: 1
-  sensibilityToSelfdamage: 0.25
+  maxHealth: 100
+  criticalHealthRatio: 0.3
 --- !u!114 &5890443563725032207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,6 +456,7 @@ MonoBehaviour:
   player: {fileID: 814417836257332542}
   inventory: {fileID: 0}
   characterSystem: {fileID: 0}
+  hotbar: {fileID: 0}
 --- !u!114 &2760648264989750754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,9 +470,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effects: []
+  playerbody: {fileID: 814417836257332542}
   health: {fileID: 1360575517897679518}
-  speed: 0
-  damage: 0
+  playerinv: {fileID: 2285641372627792632}
+  nHealth: 0
+  nDamage: 0
+--- !u!114 &4205022973215787166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253983127304857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b0ce1bb69c96b49a7ac1098a7f5796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageMultiplier: 1
+  sensibilityToSelfdamage: 0.25
+--- !u!114 &6268538116984687401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253983127304857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b4c4e7c5d6cd34bb04cb46517b4e23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affiliation: 1
+  aimPoint: {fileID: 3625601170703586302}
 --- !u!82 &1272397862697293493
 AudioSource:
   m_ObjectHideFlags: 0
