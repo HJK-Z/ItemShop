@@ -10,7 +10,7 @@ public class Affectable : MonoBehaviour
 
     public Health health;
 
-    public PlayerHoldingManager playerinv;
+    public HotbarManager playerinv;
 
     public float nHealth;
 
