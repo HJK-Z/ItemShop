@@ -39,7 +39,7 @@ public class PlayerCharacterController : MonoBehaviour
     public float killHeight = -50f;
 
     [Header("Rotation")]
-    public float rotationSpeed = 200f;
+    public float rotationSpeed = 2000f;
 
     [Header("Jump")]
     public float jumpForce = 9f;

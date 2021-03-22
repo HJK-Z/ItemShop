@@ -41,6 +41,8 @@ public class HotbarManager : MonoBehaviour
 
     public int activeItemIndex { get; private set; }
 
+    public GameObject activeSlot;
+
     public UnityAction<ItemController> onSwitchedToItem;
 
     public UnityAction<ItemController, int> onAddedItem;
@@ -176,6 +178,9 @@ public class HotbarManager : MonoBehaviour
             m_TimeStartedItemSwitch = Time.time;
 
             m_ItemSwitchState = SwitchState.PutDownPrevious;
+            
+            activeSlot.transform.SetParent(m_Inventory.hotbar.transform.GetChild(0).GetChild(activeItemIndex));
+            activeSlot.transform.localPosition = Vector3.zero;
         }
     }
 

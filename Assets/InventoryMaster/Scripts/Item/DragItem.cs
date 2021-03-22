@@ -107,7 +107,6 @@ DragItem
             Transform newSlot = null;
             if (data.pointerEnter != null)
                 newSlot = data.pointerEnter.transform;
-
             if (newSlot != null)
             {
                 //getting the items from the slots, GameObjects and RectTransform

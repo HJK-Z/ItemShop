@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4354021110288562838}
   m_Layer: 0
-  m_Name: DefaultWeaponPosition
+  m_Name: DefaultItemPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,36 +29,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3361326784658045617}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1643745102531713927
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3625601170703586302}
-  m_Layer: 0
-  m_Name: AimPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3625601170703586302
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643745102531713927}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.09, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8746678193447392789}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2703355619797536407
 GameObject:
@@ -163,7 +133,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8746678193447392789}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!119 &6820428171280673988
 Projector:
@@ -212,40 +182,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4354021110288562838}
-  - {fileID: 6033319682454824337}
   - {fileID: 2050759424792167117}
   - {fileID: 3891163784698469781}
   m_Father: {fileID: 8694137560673455815}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7126704371940088441
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6033319682454824337}
-  m_Layer: 0
-  m_Name: AimingWeaponPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6033319682454824337
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7126704371940088441}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.347, z: 0.465}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3361326784658045617}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7247205726325752422
@@ -258,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3891163784698469781}
   m_Layer: 0
-  m_Name: WeaponParentSocket
+  m_Name: ItemParentSocket
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -276,7 +215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3361326784658045617}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7253983127304857660
 GameObject:
@@ -289,7 +228,7 @@ GameObject:
   - component: {fileID: 8746678193447392789}
   - component: {fileID: 6145509692674227223}
   - component: {fileID: 814417836257332542}
-  - component: {fileID: 2285641372627792632}
+  - component: {fileID: 8657717853760134316}
   - component: {fileID: 3122855503829242450}
   - component: {fileID: 1360575517897679518}
   - component: {fileID: 5890443563725032207}
@@ -299,7 +238,7 @@ GameObject:
   - component: {fileID: 1272397862697293493}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -316,7 +255,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8694137560673455815}
-  - {fileID: 3625601170703586302}
   - {fileID: 1403933375132323333}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -364,7 +302,7 @@ MonoBehaviour:
   accelerationSpeedInAir: 25
   sprintSpeedModifier: 1.5
   killHeight: -50
-  rotationSpeed: 200
+  rotationSpeed: 2000
   jumpForce: 9
   cameraHeightRatio: 0.8
   capsuleHeightStanding: 1.8
@@ -382,7 +320,7 @@ MonoBehaviour:
   fallDamageAtMinSpeed: 10
   fallDamageAtMaxSpeed: 30
   inventory: {fileID: 5890443563725032207}
---- !u!114 &2285641372627792632
+--- !u!114 &8657717853760134316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -391,11 +329,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7253983127304857660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92eebfa0775b4e94c99df5e913d51d98, type: 3}
+  m_Script: {fileID: 11500000, guid: 15132855843dc6149bdf4942510cb603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemCamera: {fileID: 2286125971047457827}
-  itemParentSocket: {fileID: 3361326784658045617}
+  itemParentSocket: {fileID: 3891163784698469781}
   defaultItemPosition: {fileID: 4354021110288562838}
   downItemPosition: {fileID: 2050759424792167117}
   bobFrequency: 10
@@ -406,6 +344,7 @@ MonoBehaviour:
   FPSItemLayer:
     serializedVersion: 2
     m_Bits: 1024
+  activeSlot: {fileID: 0}
   m_InputHandler: {fileID: 6145509692674227223}
   m_PlayerCharacterController: {fileID: 814417836257332542}
   m_Inventory: {fileID: 5890443563725032207}
@@ -472,7 +411,7 @@ MonoBehaviour:
   effects: []
   playerbody: {fileID: 814417836257332542}
   health: {fileID: 1360575517897679518}
-  playerinv: {fileID: 2285641372627792632}
+  playerinv: {fileID: 8657717853760134316}
   nHealth: 0
   nDamage: 0
 --- !u!114 &4205022973215787166
@@ -502,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affiliation: 1
-  aimPoint: {fileID: 3625601170703586302}
+  aimPoint: {fileID: 8694137560673455815}
 --- !u!82 &1272397862697293493
 AudioSource:
   m_ObjectHideFlags: 0
@@ -610,7 +549,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050759424792167117}
   m_Layer: 0
-  m_Name: DownWeaponPosition
+  m_Name: DownItemPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -628,7 +567,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3361326784658045617}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7442781921941657531
 GameObject:
