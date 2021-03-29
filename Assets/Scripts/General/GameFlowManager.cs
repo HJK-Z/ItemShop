@@ -80,7 +80,7 @@ public class GameFlowManager : MonoBehaviour
         audioSource
             .PlayScheduled(AudioSettings.dspTime + delayBeforeDeathMessage);
 
-        Destroy(audioSource, m_TimeRespawn);
+        Destroy (audioSource, m_TimeRespawn);
 
         // create a game message
         var message =

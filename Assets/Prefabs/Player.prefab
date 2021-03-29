@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36420567472693393}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.264, y: -0.347, z: 0.465}
+  m_LocalPosition: {x: 0.523, y: -0.417, z: 0.465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3361326784658045617}
@@ -178,7 +178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6717119209339842490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.76, y: -0.686, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4354021110288562838}
@@ -211,7 +211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7247205726325752422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6, y: -0.46500003, z: 0.073}
+  m_LocalPosition: {x: 2.131, y: -0.413, z: 0.073}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3361326784658045617}
@@ -345,6 +345,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   activeSlot: {fileID: 0}
+  itemPrefab: {fileID: 7076677939463279883, guid: 0503481c8d04ad84fb70548ab1e0ae2f,
+    type: 3}
+  m_Hotbar:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_InputHandler: {fileID: 6145509692674227223}
   m_PlayerCharacterController: {fileID: 814417836257332542}
   m_Inventory: {fileID: 5890443563725032207}
@@ -396,6 +408,9 @@ MonoBehaviour:
   inventory: {fileID: 0}
   characterSystem: {fileID: 0}
   hotbar: {fileID: 0}
+  mainInventory: {fileID: 0}
+  characterSystemInventory: {fileID: 0}
+  hotbarInventory: {fileID: 0}
 --- !u!114 &2760648264989750754
 MonoBehaviour:
   m_ObjectHideFlags: 0

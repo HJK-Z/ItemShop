@@ -15,22 +15,6 @@ public class NotificationHUDManager : MonoBehaviour
         // playerWeaponsManager.onAddedWeapon += OnPickupWeapon;
     }
 
-    void OnUpdateObjective(UnityActionUpdateObjective updateObjective)
-    {
-        if (!string.IsNullOrEmpty(updateObjective.notificationText))
-            CreateNotification(updateObjective.notificationText);
-    }
-
-    void OnPickupWeapon(ItemController ItemController, int index)
-    {
-        if (index != 0)
-            CreateNotification("Picked up weapon : " + ItemController.name);
-    }
-
-    void OnUnlockJetpack(bool unlock)
-    {
-    }
-
     public void CreateNotification(string text)
     {
         GameObject notificationInstance = Instantiate(notificationPrefab, notificationPanel);
@@ -41,15 +25,5 @@ public class NotificationHUDManager : MonoBehaviour
         {
             toast.Initialize(text);
         }
-    }
-
-    public void RegisterObjective(Objective objective)
-    {
-        objective.onUpdateObjective += OnUpdateObjective;
-    }
-
-    public void UnregisterObjective(Objective objective)
-    {
-        objective.onUpdateObjective -= OnUpdateObjective;
     }
 }

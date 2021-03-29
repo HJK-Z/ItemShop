@@ -13,11 +13,11 @@ public class PlayerInventory : MonoBehaviour
 
     public GameObject hotbar;
 
-    private Inventory mainInventory;
+    public Inventory mainInventory;
 
-    private Inventory characterSystemInventory;
+    public Inventory characterSystemInventory;
 
-    private Inventory hotbarInventory;
+    public Inventory hotbarInventory;
 
     private Tooltip toolTip;
 
@@ -34,8 +34,7 @@ public class PlayerInventory : MonoBehaviour
         if (characterSystem != null)
             characterSystemInventory =
                 characterSystem.GetComponent<Inventory>();
-        if (hotbar != null)
-            hotbarInventory = hotbar.GetComponent<Inventory>();
+        if (hotbar != null) hotbarInventory = hotbar.GetComponent<Inventory>();
     }
 
     public void OnConsumeItem(Item item)

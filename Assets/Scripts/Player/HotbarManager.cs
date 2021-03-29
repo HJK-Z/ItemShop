@@ -5,14 +5,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof (PlayerInputHandler))]
 public class HotbarManager : MonoBehaviour
 {
-    public enum SwitchState
-    {
-        Up,
-        Down,
-        PutDownPrevious,
-        PutUpNew
-    }
-
     [Header("References")]
     public Camera itemCamera;
 
@@ -30,7 +22,7 @@ public class HotbarManager : MonoBehaviour
     public float bobAmount = 0.05f;
 
     [Header("Misc")]
-    public float damageMultiplier = 1f;
+    public float damageMultiplier = 1f; //relocate later
 
     public float itemSwitchDelay = 1f;
 
@@ -43,13 +35,15 @@ public class HotbarManager : MonoBehaviour
 
     public GameObject activeSlot;
 
+    public GameObject itemPrefab;
+
     public UnityAction<ItemController> onSwitchedToItem;
 
     public UnityAction<ItemController, int> onAddedItem;
 
     public UnityAction<ItemController, int> onRemovedItem;
 
-    ItemController[] m_Hotbar = new ItemController[9];
+    public ItemController[] m_Hotbar = new ItemController[9];
 
     public PlayerInputHandler m_InputHandler;
 
@@ -65,20 +59,18 @@ public class HotbarManager : MonoBehaviour
 
     Vector3 m_BobLocalPosition;
 
-    float m_TimeStartedItemSwitch;
-
-    SwitchState m_ItemSwitchState;
-
-    int m_ItemSwitchNewItemIndex;
-
     private void Start()
     {
         activeItemIndex = 0;
-        m_ItemSwitchState = SwitchState.Down;
 
         onSwitchedToItem += OnItemSwitched;
 
-        SwitchItem (activeItemIndex);
+        for (int i = 0; i < 9; i++)
+        {
+            AddItem(i, new Item());
+        }
+
+        SwitchToItem (activeItemIndex);
     }
 
     private void Update()
@@ -86,7 +78,7 @@ public class HotbarManager : MonoBehaviour
         // handling
         ItemController activeItem = GetActiveItem();
 
-        if (activeItem && m_ItemSwitchState == SwitchState.Up)
+        if (activeItem)
         {
             activeItem
                 .HandleUseInputs(m_InputHandler.GetUseInputDown(),
@@ -94,26 +86,62 @@ public class HotbarManager : MonoBehaviour
                 m_InputHandler.GetUseInputReleased());
         }
 
-        // item switch handling
-        if (
-            (activeItem == null || !activeItem.isCharging) &&
-            (
-            m_ItemSwitchState == SwitchState.Up ||
-            m_ItemSwitchState == SwitchState.Down
-            )
-        )
+        int switchItemInput = m_InputHandler.GetSwitchItemInput();
+        if (switchItemInput != 0)
         {
-            int switchItemInput = m_InputHandler.GetSwitchItemInput();
+            SwitchItem (switchItemInput);
+        }
+        else
+        {
+            switchItemInput = m_InputHandler.GetSelectItemInput();
             if (switchItemInput != 0)
             {
-                SwitchItem (switchItemInput);
+                SwitchToItem(switchItemInput - 1);
+            }
+        }
+
+        // Update items in hotbar
+        for (int i = 0; i < 9; i++)
+        {
+            Transform itemSlot =
+                GameObject
+                    .FindGameObjectsWithTag("Hotbar")[0]
+                    .transform
+                    .GetChild(0)
+                    .GetChild(i);
+            if (
+                itemSlot.childCount == 0 ||
+                (
+                itemSlot.childCount == 1 &&
+                itemSlot.GetChild(0).name == "ActiveSlot"
+                )
+            )
+            {
+                if (m_Hotbar[i].item.itemID != -1)
+                {
+                    m_Hotbar[i].UpdateItem(new Item());
+                }
+            }
+            else if (itemSlot.GetChild(0).name == "ActiveSlot")
+            {
+                Item it =
+                    itemSlot.GetChild(1).GetComponent<ItemOnObject>().item;
+                if (m_Hotbar[i].item.itemID != it.itemID)
+                {
+                    m_Hotbar[i].UpdateItem(it);
+                    if (!m_Hotbar[i].isWeaponActive)
+                    {
+                        m_Hotbar[i].Show(true);
+                    }
+                }
             }
             else
             {
-                switchItemInput = m_InputHandler.GetSelectItemInput();
-                if (switchItemInput != 0)
+                Item it =
+                    itemSlot.GetChild(0).GetComponent<ItemOnObject>().item;
+                if (m_Hotbar[i].item.itemID != it.itemID)
                 {
-                    SwitchToItem(switchItemInput - 1);
+                    m_Hotbar[i].UpdateItem(it);
                 }
             }
         }
@@ -144,7 +172,6 @@ public class HotbarManager : MonoBehaviour
     private void LateUpdate()
     {
         UpdateBob();
-        UpdateItemSwitching();
 
         // Set final item socket position based on all the combined animation influences
         itemParentSocket.localPosition =
@@ -173,13 +200,18 @@ public class HotbarManager : MonoBehaviour
     {
         if (newItemIndex != activeItemIndex && newItemIndex >= 0)
         {
-            // Store data related to weapon switching animation
-            m_ItemSwitchNewItemIndex = newItemIndex;
-            m_TimeStartedItemSwitch = Time.time;
+            m_Hotbar[activeItemIndex].Show(false);
+            activeItemIndex = newItemIndex;
 
-            m_ItemSwitchState = SwitchState.PutDownPrevious;
-            
-            activeSlot.transform.SetParent(m_Inventory.hotbar.transform.GetChild(0).GetChild(activeItemIndex));
+            activeSlot
+                .transform
+                .SetParent(m_Inventory
+                    .hotbar
+                    .transform
+                    .GetChild(0)
+                    .GetChild(activeItemIndex));
+
+            m_Hotbar[activeItemIndex].Show(true);
             activeSlot.transform.localPosition = Vector3.zero;
         }
     }
@@ -232,92 +264,20 @@ public class HotbarManager : MonoBehaviour
         }
     }
 
-    // Updates the animated transition of switching
-    void UpdateItemSwitching()
-    {
-        // Calculate the time ratio (0 to 1) since switch was triggered
-        float switchingTimeFactor = 0f;
-        if (itemSwitchDelay == 0f)
-        {
-            switchingTimeFactor = 1f;
-        }
-        else
-        {
-            switchingTimeFactor =
-                Mathf
-                    .Clamp01((Time.time - m_TimeStartedItemSwitch) /
-                    itemSwitchDelay);
-        }
-
-        // Handle transiting to new switch state
-        if (switchingTimeFactor >= 1f)
-        {
-            if (m_ItemSwitchState == SwitchState.PutDownPrevious)
-            {
-                // Deactivate old
-                ItemController old = GetActiveItem();
-                if (old != null)
-                {
-                    old.Show(false);
-                }
-
-                activeItemIndex = m_ItemSwitchNewItemIndex;
-                switchingTimeFactor = 0f;
-
-                // Activate new weapon
-                ItemController newItem = GetActiveItem();
-                if (onSwitchedToItem != null)
-                {
-                    onSwitchedToItem.Invoke (newItem);
-                }
-
-                if (newItem)
-                {
-                    m_TimeStartedItemSwitch = Time.time;
-                    m_ItemSwitchState = SwitchState.PutUpNew;
-                }
-                else
-                {
-                    // if new item is null, don't follow through with putting item back up
-                    m_ItemSwitchState = SwitchState.Down;
-                }
-            }
-            else if (m_ItemSwitchState == SwitchState.PutUpNew)
-            {
-                m_ItemSwitchState = SwitchState.Up;
-            }
-        }
-
-        // Handle moving the socket position for the animated switching
-        if (m_ItemSwitchState == SwitchState.PutDownPrevious)
-        {
-            m_MainLocalPosition =
-                Vector3
-                    .Lerp(defaultItemPosition.localPosition,
-                    downItemPosition.localPosition,
-                    switchingTimeFactor);
-        }
-        else if (m_ItemSwitchState == SwitchState.PutUpNew)
-        {
-            m_MainLocalPosition =
-                Vector3
-                    .Lerp(downItemPosition.localPosition,
-                    defaultItemPosition.localPosition,
-                    switchingTimeFactor);
-        }
-    }
-
     // Called when an item is moved to the hotbar
-    public void AddItem(ItemController itemPrefab, int index)
+    public void AddItem(int index, Item item)
     {
         // spawn the prefab as child of the item socket
-        ItemController instance = Instantiate(itemPrefab, itemParentSocket);
+        ItemController instance =
+            Instantiate(itemPrefab, itemParentSocket)
+                .GetComponent<ItemController>();
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
 
         // Set owner to this gameObject so the item can alter logic accordingly
         instance.owner = gameObject;
         instance.sourcePrefab = itemPrefab.gameObject;
+        instance.item = item;
         instance.Show(false);
 
         // Assign the first person layer to the item

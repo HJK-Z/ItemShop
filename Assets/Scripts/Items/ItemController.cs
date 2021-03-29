@@ -26,6 +26,8 @@ public class ItemController : MonoBehaviour
 {
     //weapons
     [Header("Information")]
+    public Item item;
+
     public CrosshairData crosshairDataDefault;
 
     public CrosshairData crosshairDataTargetInSight;
@@ -33,6 +35,8 @@ public class ItemController : MonoBehaviour
     public GameObject weaponRoot;
 
     public Transform weaponMuzzle;
+
+    public SpriteRenderer image;
 
     [Header("Shoot Parameters")]
     public WeaponShootType shootType;
@@ -133,9 +137,7 @@ public class ItemController : MonoBehaviour
         m_ShootAudioSource = GetComponent<AudioSource>();
         DebugUtility
             .HandleErrorIfNullGetComponent
-            <AudioSource, ItemController>(m_ShootAudioSource,
-            this,
-            gameObject);
+            <AudioSource, ItemController>(m_ShootAudioSource, this, gameObject);
 
         if (useContinuousShootSound)
         {
@@ -162,6 +164,13 @@ public class ItemController : MonoBehaviour
                 (weaponMuzzle.position - m_LastMuzzlePosition) / Time.deltaTime;
             m_LastMuzzlePosition = weaponMuzzle.position;
         }
+    }
+
+    public void UpdateItem(Item newItem)
+    {
+        item = newItem;
+
+        image.sprite = item.itemIcon;
     }
 
     void UpdateAmmo()
