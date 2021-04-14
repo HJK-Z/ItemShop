@@ -41,46 +41,7 @@ public class PlayerInventory : MonoBehaviour
     {
         for (int i = 0; i < item.itemAttributes.Count; i++)
         {
-            // if (item.itemAttributes[i].attributeName == "Health")
-            // {
-            //     if (
-            //         (currentHealth + item.itemAttributes[i].attributeValue) >
-            //         maxHealth
-            //     )
-            //         currentHealth = maxHealth;
-            //     else
-            //         currentHealth += item.itemAttributes[i].attributeValue;
-            // }
-            // if (item.itemAttributes[i].attributeName == "Mana")
-            // {
-            //     if (
-            //         (currentMana + item.itemAttributes[i].attributeValue) >
-            //         maxMana
-            //     )
-            //         currentMana = maxMana;
-            //     else
-            //         currentMana += item.itemAttributes[i].attributeValue;
-            // }
-            // if (item.itemAttributes[i].attributeName == "Armor")
-            // {
-            //     if (
-            //         (currentArmor + item.itemAttributes[i].attributeValue) >
-            //         maxArmor
-            //     )
-            //         currentArmor = maxArmor;
-            //     else
-            //         currentArmor += item.itemAttributes[i].attributeValue;
-            // }
-            // if (item.itemAttributes[i].attributeName == "Damage")
-            // {
-            //     if (
-            //         (currentDamage + item.itemAttributes[i].attributeValue) >
-            //         maxDamage
-            //     )
-            //         currentDamage = maxDamage;
-            //     else
-            //         currentDamage += item.itemAttributes[i].attributeValue;
-            // }
+            player.gameObject.GetComponent<Affectable>().effects.Add(item.itemAttributes[i]);
         }
     }
 

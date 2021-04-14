@@ -22,7 +22,17 @@ public class ItemDataBaseList : MonoBehaviour
                 5,
                 ItemType.Consumable,
                 "",
-                new List<ItemAttribute>()));
+                new List<Effect>()));
+        itemList
+            .Add(new Item("\"Bread\"",
+                1,
+                "actually a gun",
+                Resources.Load<Sprite>("I_C_Bread"),
+                pickupItem,
+                1,
+                ItemType.Weapon,
+                "",
+                new List<Effect>()));
     }
 
     public Item getItemByID(int id)

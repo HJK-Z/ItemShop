@@ -1,13 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public enum WeaponShootType
-{
-    Manual,
-    Automatic,
-    Charge
-}
-
 [System.Serializable]
 public struct CrosshairData
 {
@@ -39,11 +32,9 @@ public class ItemController : MonoBehaviour
     public SpriteRenderer image;
 
     [Header("Shoot Parameters")]
-    public WeaponShootType shootType;
-
     public ProjectileBase projectilePrefab;
 
-    public float delayBetweenShots = 0.5f;
+    public float delayBetweenUses = 0.5f;
 
     public float bulletSpreadAngle = 0f;
 
@@ -51,22 +42,6 @@ public class ItemController : MonoBehaviour
 
     [Range(0f, 2f)]
     public float recoilForce = 1;
-
-    [Header("Ammo Parameters")]
-    public float ammoReloadRate = 1f;
-
-    public float ammoReloadDelay = 2f;
-
-    public float maxAmmo = 8;
-
-    [Header("Charging parameters (charging weapons only)")]
-    public bool automaticReleaseOnCharged;
-
-    public float maxChargeDuration = 2f;
-
-    public float ammoUsedOnStartCharge = 1f;
-
-    public float ammoUsageRateWhileCharging = 1f;
 
     [Header("Audio & Visual")]
     public Animator weaponAnimator;
@@ -77,9 +52,9 @@ public class ItemController : MonoBehaviour
 
     public AudioClip shootSFX;
 
-    public AudioClip changeWeaponSFX;
-
     public bool useContinuousShootSound = false;
+
+    public AudioClip changeWeaponSFX;
 
     public AudioClip continuousShootStartSFX;
 
@@ -91,13 +66,9 @@ public class ItemController : MonoBehaviour
 
     private bool m_wantsToShoot = false;
 
-    public UnityAction onShoot;
+    public UnityAction onUse;
 
-    float m_CurrentAmmo;
-
-    float m_LastTimeShot = Mathf.NegativeInfinity;
-
-    public float LastChargeTriggerTimestamp { get; private set; }
+    float m_LastTimeUse = Mathf.NegativeInfinity;
 
     Vector3 m_LastMuzzlePosition;
 
@@ -105,25 +76,9 @@ public class ItemController : MonoBehaviour
 
     public GameObject sourcePrefab { get; set; }
 
-    public bool isCharging { get; private set; }
-
-    public float currentAmmoRatio { get; private set; }
-
     public bool isWeaponActive { get; private set; }
 
-    public bool isCooling { get; private set; }
-
-    public float currentCharge { get; private set; }
-
     public Vector3 muzzleWorldVelocity { get; private set; }
-
-    public float GetAmmoNeededToShoot() =>
-        (
-        shootType != WeaponShootType.Charge
-            ? 1f
-            : Mathf.Max(1f, ammoUsedOnStartCharge)
-        ) /
-        (maxAmmo * bulletsPerShot);
 
     AudioSource m_ShootAudioSource;
 
@@ -131,7 +86,6 @@ public class ItemController : MonoBehaviour
 
     void Awake()
     {
-        m_CurrentAmmo = maxAmmo;
         m_LastMuzzlePosition = weaponMuzzle.position;
 
         m_ShootAudioSource = GetComponent<AudioSource>();
@@ -154,10 +108,6 @@ public class ItemController : MonoBehaviour
 
     void Update()
     {
-        UpdateAmmo();
-        UpdateCharge();
-        UpdateContinuousShootSound();
-
         if (Time.deltaTime > 0)
         {
             muzzleWorldVelocity =
@@ -173,94 +123,6 @@ public class ItemController : MonoBehaviour
         image.sprite = item.itemIcon;
     }
 
-    void UpdateAmmo()
-    {
-        if (
-            m_LastTimeShot + ammoReloadDelay < Time.time &&
-            m_CurrentAmmo < maxAmmo &&
-            !isCharging
-        )
-        {
-            // reloads weapon over time
-            m_CurrentAmmo += ammoReloadRate * Time.deltaTime;
-
-            // limits ammo to max value
-            m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo, 0, maxAmmo);
-
-            isCooling = true;
-        }
-        else
-        {
-            isCooling = false;
-        }
-
-        if (maxAmmo == Mathf.Infinity)
-        {
-            currentAmmoRatio = 1f;
-        }
-        else
-        {
-            currentAmmoRatio = m_CurrentAmmo / maxAmmo;
-        }
-    }
-
-    void UpdateCharge()
-    {
-        if (isCharging)
-        {
-            if (currentCharge < 1f)
-            {
-                float chargeLeft = 1f - currentCharge;
-
-                // Calculate how much charge ratio to add this frame
-                float chargeAdded = 0f;
-                if (maxChargeDuration <= 0f)
-                {
-                    chargeAdded = chargeLeft;
-                }
-                else
-                {
-                    chargeAdded = (1f / maxChargeDuration) * Time.deltaTime;
-                }
-
-                chargeAdded = Mathf.Clamp(chargeAdded, 0f, chargeLeft);
-
-                // See if we can actually add this charge
-                float ammoThisChargeWouldRequire =
-                    chargeAdded * ammoUsageRateWhileCharging;
-                if (ammoThisChargeWouldRequire <= m_CurrentAmmo)
-                {
-                    // Use ammo based on charge added
-                    UseAmmo (ammoThisChargeWouldRequire);
-
-                    // set current charge ratio
-                    currentCharge = Mathf.Clamp01(currentCharge + chargeAdded);
-                }
-            }
-        }
-    }
-
-    private void UpdateContinuousShootSound()
-    {
-        if (useContinuousShootSound)
-        {
-            if (m_wantsToShoot && m_CurrentAmmo >= 1f)
-            {
-                if (!m_continuousShootAudioSource.isPlaying)
-                {
-                    m_ShootAudioSource.PlayOneShot (shootSFX);
-                    m_ShootAudioSource.PlayOneShot (continuousShootStartSFX);
-                    m_continuousShootAudioSource.Play();
-                }
-            }
-            else if (m_continuousShootAudioSource.isPlaying)
-            {
-                m_ShootAudioSource.PlayOneShot (continuousShootEndSFX);
-                m_continuousShootAudioSource.Stop();
-            }
-        }
-    }
-
     public void Show(bool show)
     {
         weaponRoot.SetActive (show);
@@ -273,111 +135,46 @@ public class ItemController : MonoBehaviour
         isWeaponActive = show;
     }
 
-    public void UseAmmo(float amount)
-    {
-        m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo - amount, 0f, maxAmmo);
-        m_LastTimeShot = Time.time;
-    }
-
     public bool HandleUseInputs(bool inputDown, bool inputHeld, bool inputUp)
     {
         m_wantsToShoot = inputDown || inputHeld;
-        switch (shootType)
+        switch (item.itemType)
         {
-            case WeaponShootType.Manual:
+            case ItemType.Weapon:
                 if (inputDown)
                 {
                     return TryShoot();
                 }
-                return false;
-            case WeaponShootType.Automatic:
-                if (inputHeld)
+                break;
+            case ItemType.Consumable:
+                if (inputDown)
                 {
-                    return TryShoot();
+                    return TryConsume();
                 }
-                return false;
-            case WeaponShootType.Charge:
-                if (inputHeld)
-                {
-                    TryBeginCharge();
-                }
-
-                // Check if we released charge or if the weapon shoot autmatically when it's fully charged
-                if (
-                    inputUp ||
-                    (automaticReleaseOnCharged && currentCharge >= 1f)
-                )
-                {
-                    return TryReleaseCharge();
-                }
-                return false;
+                break;
             default:
-                return false;
+                break;
         }
+
+        return false;
     }
 
     bool TryShoot()
     {
-        if (
-            m_CurrentAmmo >= 1f &&
-            m_LastTimeShot + delayBetweenShots < Time.time
-        )
-        {
-            HandleShoot();
-            m_CurrentAmmo -= 1f;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    bool TryBeginCharge()
-    {
-        if (
-            !isCharging &&
-            m_CurrentAmmo >= ammoUsedOnStartCharge &&
-            Mathf
-                .FloorToInt((m_CurrentAmmo - ammoUsedOnStartCharge) *
-                bulletsPerShot) >
-            0 &&
-            m_LastTimeShot + delayBetweenShots < Time.time
-        )
-        {
-            UseAmmo (ammoUsedOnStartCharge);
-
-            LastChargeTriggerTimestamp = Time.time;
-            isCharging = true;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    bool TryReleaseCharge()
-    {
-        if (isCharging)
+        if (m_LastTimeUse + delayBetweenUses < Time.time)
         {
             HandleShoot();
 
-            currentCharge = 0f;
-            isCharging = false;
-
             return true;
         }
+
         return false;
     }
 
     void HandleShoot()
     {
-        int bulletsPerShotFinal =
-            shootType == WeaponShootType.Charge
-                ? Mathf.CeilToInt(currentCharge * bulletsPerShot)
-                : bulletsPerShot;
-
         // spawn all bullets with random direction
-        for (int i = 0; i < bulletsPerShotFinal; i++)
+        for (int i = 0; i < bulletsPerShot; i++)
         {
             Vector3 shotDirection = GetShotDirectionWithinSpread(weaponMuzzle);
             ProjectileBase newProjectile =
@@ -405,7 +202,7 @@ public class ItemController : MonoBehaviour
             Destroy(muzzleFlashInstance, 2f);
         }
 
-        m_LastTimeShot = Time.time;
+        m_LastTimeUse = Time.time;
 
         // play shoot SFX
         if (shootSFX && !useContinuousShootSound)
@@ -420,9 +217,9 @@ public class ItemController : MonoBehaviour
         }
 
         // Callback on shoot
-        if (onShoot != null)
+        if (onUse != null)
         {
-            onShoot();
+            onUse();
         }
     }
 
@@ -436,5 +233,30 @@ public class ItemController : MonoBehaviour
                 spreadAngleRatio);
 
         return spreadWorldDirection;
+    }
+
+    bool TryConsume()
+    {
+        if (m_LastTimeUse + delayBetweenUses < Time.time)
+        {
+            HandleConsume();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    void HandleConsume()
+    {
+        m_LastTimeUse = Time.time;
+
+        owner.GetComponent<PlayerInventory>().OnConsumeItem(item);
+
+        // Callback on use
+        if (onUse != null)
+        {
+            onUse();
+        }
     }
 }

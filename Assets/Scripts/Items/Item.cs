@@ -18,14 +18,14 @@ public class Item
     public int rarity;
 
     [SerializeField]
-    public List<ItemAttribute> itemAttributes = new List<ItemAttribute>();    
+    public List<Effect> itemAttributes = new List<Effect>();    
     
     public Item()
     {
         itemID = -1;
     }
 
-    public Item(string name, int id, string desc, Sprite icon, GameObject model, int maxStack, ItemType type, string sendmessagetext, List<ItemAttribute> itemAttributes)                 //function to create a instance of the Item
+    public Item(string name, int id, string desc, Sprite icon, GameObject model, int maxStack, ItemType type, string sendmessagetext, List<Effect> itemAttributes)                 //function to create a instance of the Item
     {
         itemName = name;
         itemID = id;
