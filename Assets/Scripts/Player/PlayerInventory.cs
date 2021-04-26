@@ -7,17 +7,11 @@ public class PlayerInventory : MonoBehaviour
 {
     public PlayerCharacterController player;
 
-    public GameObject inventory;
+    public Inventory inventory;
 
-    public GameObject characterSystem;
+    public Inventory equipmentSystem;
 
-    public GameObject hotbar;
-
-    public Inventory mainInventory;
-
-    public Inventory characterSystemInventory;
-
-    public Inventory hotbarInventory;
+    public Inventory hotbar;
 
     private Tooltip toolTip;
 
@@ -28,13 +22,6 @@ public class PlayerInventory : MonoBehaviour
                 GameObject
                     .FindGameObjectWithTag("Tooltip")
                     .GetComponent<Tooltip>();
-
-        if (inventory != null)
-            mainInventory = inventory.GetComponent<Inventory>();
-        if (characterSystem != null)
-            characterSystemInventory =
-                characterSystem.GetComponent<Inventory>();
-        if (hotbar != null) hotbarInventory = hotbar.GetComponent<Inventory>();
     }
 
     public void OnConsumeItem(Item item)
@@ -84,14 +71,14 @@ public class PlayerInventory : MonoBehaviour
     {
         if (open)
         {
-            mainInventory.openInventory();
-            characterSystemInventory.openInventory();
+            inventory.openInventory();
+            equipmentSystem.openInventory();
         }
         else
         {
             if (toolTip != null) toolTip.deactivateTooltip();
-            mainInventory.closeInventory();
-            characterSystemInventory.closeInventory();
+            inventory.closeInventory();
+            equipmentSystem.closeInventory();
         }
     }
 }

@@ -1,41 +1,65 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+
 public class PickUpItem : MonoBehaviour
 {
     public Item item;
-    private Inventory _inventory;
-    private GameObject _player;
-    // Use this for initialization
 
+    private Inventory _inventory;
+
+    private Inventory _hotbar;
+
+    private GameObject _player;
+
+    // Use this for initialization
     void Start()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         if (_player != null)
-            _inventory = _player.GetComponent<PlayerInventory>().inventory.GetComponent<Inventory>();
+            _inventory = _player.GetComponent<PlayerInventory>().inventory;
+        _hotbar = _player.GetComponent<PlayerInventory>().hotbar;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_inventory != null)
-        {
-            float distance = Vector3.Distance(this.gameObject.transform.position, _player.transform.position);
+        float distance =
+            Vector3
+                .Distance(this.gameObject.transform.position,
+                _player.transform.position);
 
-            if (distance <= 2)
+        if (distance <= 2)
+        {
+            bool check =
+                _inventory.checkIfItemExists(item.itemID, item.itemStack);
+            if (check)
+                Destroy(this.gameObject);
+            else if (
+                _inventory.ItemsInInventory.Count <
+                (_inventory.width * _inventory.height)
+            )
             {
-                bool check = _inventory.checkIfItemAllreadyExist(item.itemID, item.itemValue);
+                _inventory.addItemToInventory(item.itemID, item.itemStack);
+                _inventory.updateItemList();
+                _inventory.stackableSettings();
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                check = _hotbar.checkIfItemExists(item.itemID, item.itemStack);
                 if (check)
                     Destroy(this.gameObject);
-                else if (_inventory.ItemsInInventory.Count < (_inventory.width * _inventory.height))
+                else if (
+                    _hotbar.ItemsInInventory.Count <
+                    (_hotbar.width * _hotbar.height)
+                )
                 {
-                    _inventory.addItemToInventory(item.itemID, item.itemValue);
-                    _inventory.updateItemList();
-                    _inventory.stackableSettings();
+                    _hotbar.addItemToInventory(item.itemID, item.itemStack);
+                    _hotbar.updateItemList();
+                    _hotbar.stackableSettings();
                     Destroy(this.gameObject);
                 }
-
             }
         }
     }
-
 }

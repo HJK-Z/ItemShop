@@ -406,11 +406,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 814417836257332542}
   inventory: {fileID: 0}
-  characterSystem: {fileID: 0}
+  equipmentSystem: {fileID: 0}
   hotbar: {fileID: 0}
-  mainInventory: {fileID: 0}
-  characterSystemInventory: {fileID: 0}
-  hotbarInventory: {fileID: 0}
 --- !u!114 &2760648264989750754
 MonoBehaviour:
   m_ObjectHideFlags: 0
